@@ -7,6 +7,7 @@ import logout from "src/auth/mutations/logout"
 import logo from "public/logo.png"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
+import { getAntiCSRFToken } from "@blitzjs/auth"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -14,12 +15,31 @@ import { Routes, BlitzPage } from "@blitzjs/next"
  */
 
 const UserInfo = () => {
+  const antiCSRFToken = getAntiCSRFToken()
+
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
+
+  const testUser = async () => {
+    await fetch("/api/twitter/bookmarks", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "anti-csrf": antiCSRFToken,
+      },
+    })
+  }
 
   if (currentUser) {
     return (
       <>
+
+        <button
+          onClick={testUser}
+        >
+          Test User
+
+        </button>
         <button
           className="button small"
           onClick={async () => {
@@ -38,6 +58,9 @@ const UserInfo = () => {
   } else {
     return (
       <>
+
+        <a href="/api/auth/twitter">Log In With Twitter</a>
+
         <Link href={Routes.SignupPage()}>
           <a className="button small">
             <strong>Sign Up</strong>
