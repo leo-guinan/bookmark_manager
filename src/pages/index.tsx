@@ -3,11 +3,11 @@ import Image from "next/image"
 import Link from "next/link"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
-import logout from "src/auth/mutations/logout"
 import logo from "public/logo.png"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 import { getAntiCSRFToken } from "@blitzjs/auth"
+import logout from "../auth/mutations/logout"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -61,16 +61,6 @@ const UserInfo = () => {
 
         <a href="/api/auth/twitter">Log In With Twitter</a>
 
-        <Link href={Routes.SignupPage()}>
-          <a className="button small">
-            <strong>Sign Up</strong>
-          </a>
-        </Link>
-        <Link href={Routes.LoginPage()}>
-          <a className="button small">
-            <strong>Login</strong>
-          </a>
-        </Link>
       </>
     )
   }

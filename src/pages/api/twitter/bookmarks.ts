@@ -1,10 +1,8 @@
 import db from "db"
 import { api } from "../../../blitz-server"
 import { NextApiRequest, NextApiResponse } from "next"
-import { TwitterApi } from 'twitter-api-v2';
 import { getSession } from "@blitzjs/auth"
 import { refreshTwitterTokenIfNeeded } from "../../../utils/refresh-token"
-import { email } from "../../../auth/validations"
 import axios from "axios"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

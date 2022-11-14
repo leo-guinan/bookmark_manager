@@ -64,16 +64,6 @@ const UserInfo = () => {
 
         <a href="/api/auth/twitter">Log In With Twitter</a>
 
-        <Link href={Routes.SignupPage()}>
-          <a className="button small">
-            <strong>Sign Up</strong>
-          </a>
-        </Link>
-        <Link href={Routes.LoginPage()}>
-          <a className="button small">
-            <strong>Login</strong>
-          </a>
-        </Link>
       </>
     )
   }
