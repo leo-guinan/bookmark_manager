@@ -35,6 +35,11 @@ const Bookmarks = () => {
                 <tr>
                   <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                     <a href="#" className="group inline-flex">
+                      Link
+                    </a>
+                  </th>
+                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                    <a href="#" className="group inline-flex">
                       Tweet
                       <span
                         className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
@@ -67,6 +72,11 @@ const Bookmarks = () => {
                 <tbody className="divide-y divide-gray-200 bg-white">
                 {bookmarks && bookmarks.map((bookmark) => (
                   <tr key={bookmark.tweet.tweet_id}>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <a href={bookmark.link} target="_blank">
+                        Link
+                      </a>
+                    </td>
                     <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                       {bookmark.tweet.message}
                     </td>
