@@ -73,7 +73,7 @@ const Bookmarks = () => {
                 {bookmarks && bookmarks.map((bookmark) => (
                   <tr key={bookmark.tweet.tweet_id}>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <a href={bookmark.link} target="_blank">
+                      <a href={bookmark.link} target="_blank" rel="noreferrer" >
                         Link
                       </a>
                     </td>
