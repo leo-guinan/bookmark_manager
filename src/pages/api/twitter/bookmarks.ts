@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { TwitterApi } from 'twitter-api-v2';
 import { getSession } from "@blitzjs/auth"
 import { refreshTwitterTokenIfNeeded } from "../../../utils/refresh-token"
+import { email } from "../../../auth/validations"
+import axios from "axios"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
@@ -21,13 +23,38 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!refreshedUser?.twitterApiToken) {
         return res.status(500).send({ success: false, error: "Broken during refresh" })
       }
-      const twitterClient = new TwitterApi(refreshedUser.twitterApiToken);
-      const { data } = await twitterClient.v2.userByUsername("leo_guinan")
-      res.statusCode = 200
-      res.setHeader("Content-Type", "application/json")
-      res.end(
-        JSON.stringify({ "success": true })
-      )
+
+      const bookmarkAPI = process.env.API_URL + "/api/bookmarks/fetch/"
+      let error = null
+      await axios
+        .post(
+          bookmarkAPI,
+          {
+            twitter_id: refreshedUser.twitterId,
+            twitter_token: refreshedUser.twitterApiToken
+          },
+          {
+            headers: {
+              Authorization: `Api-Key ${process.env.API_KEY}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(async ({ data }) => {
+          console.log(data)
+          return res.status(200).send({ success: true, data })
+        })
+        .catch((err) => {
+          console.log(err)
+          error = err
+        })
+
+      if (error) {
+        console.log(error)
+        return res.status(500).send({ success: false, error: "Error" })
+      }
+
+
     } catch (error) {
 
       console.log(error)

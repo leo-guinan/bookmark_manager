@@ -25,7 +25,9 @@ model User {
   twitterProfilePicture String?
   twitterApiToken       String?
   twitterRefreshToken   String?
-  twitterTokenExpires   DateTime?
+
+  clientAccountId       Int?
+
   tokens   Token[]
   sessions Session[]
 }

@@ -29,6 +29,7 @@ export default api(
             clientType: "private",
           },
           async function (accessToken, refreshToken, profile, done) {
+
             const user = await db.user.upsert({
               where: {
                 twitterId: profile.id,
