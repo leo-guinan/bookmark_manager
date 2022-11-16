@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/bookmark_toolkit</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="flightcontrol@bookmarkmanager-d0f0r56.clmxs752pn14.us-east-2.rds.amazonaws.com" uuid="bf0f488c-1cfa-455a-a1a7-86b80e8a6d0b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://bookmarkmanager-d0f0r56.clmxs752pn14.us-east-2.rds.amazonaws.com:5432/flightcontrol</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

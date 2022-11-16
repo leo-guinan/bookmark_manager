@@ -49,6 +49,7 @@ export default api(
               },
             })
             console.log("in authentication callback: found user in db")
+            console.log(process.env.DATABASE_URL)
             const publicData = {
               userId: user.id,
               roles: [user.role],
