@@ -29,7 +29,7 @@ export default api(
             clientType: "private",
           },
           async function (accessToken, refreshToken, profile, done) {
-
+            console.log("in authentication callback: looking up user in db")
             const user = await db.user.upsert({
               where: {
                 twitterId: profile.id,
@@ -48,6 +48,7 @@ export default api(
                 twitterRefreshToken: refreshToken,
               },
             })
+            console.log("in authentication callback: found user in db")
             const publicData = {
               userId: user.id,
               roles: [user.role],
