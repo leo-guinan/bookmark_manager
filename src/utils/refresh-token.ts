@@ -39,5 +39,4 @@ export const refreshTwitterTokenIfNeeded = async (refreshToken, userId) => {
       twitterRefreshToken: json.refresh_token
     }
   })
-  console.log(json)
 }

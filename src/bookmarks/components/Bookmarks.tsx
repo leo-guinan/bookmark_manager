@@ -1,12 +1,34 @@
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
-import { useBookmarks } from "../hooks/useBookmarks"
 import { useQuery } from "@blitzjs/rpc"
 import getBookmarks from "../queries/getBookmarks"
+import { ExportToCsv } from "export-to-csv"
 
 const Bookmarks = () => {
 
-  const [ bookmarks ] = useQuery(getBookmarks, null)
+  const [bookmarks] = useQuery(getBookmarks, null)
 
+  const exportToCsv = () => {
+    if(!bookmarks) return
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: 'Twitter Bookmarks',
+      useTextFile: false,
+      useBom: true,
+      headers: ['Bookmark', 'Link']
+    };
+    const csvExporter = new ExportToCsv(options);
+
+    csvExporter.generateCsv(bookmarks.map((bookmark) => {
+      return {
+        bookmark: bookmark.tweet.message,
+        link: bookmark.link
+      }
+    } ));
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -21,8 +43,9 @@ const Bookmarks = () => {
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+            onClick={exportToCsv}
           >
-            Export to CSV (Not Implemented Yet)
+              Export to CSV
           </button>
         </div>
       </div>
@@ -73,14 +96,15 @@ const Bookmarks = () => {
                 {bookmarks && bookmarks.map((bookmark) => (
                   <tr key={bookmark.tweet.tweet_id}>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <a href={bookmark.link} target="_blank" rel="noreferrer" >
+                      <a href={bookmark.link} target="_blank" rel="noreferrer">
                         Link
                       </a>
                     </td>
                     <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                       {bookmark.tweet.message}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bookmark.tweet.author.twitter_name}</td>
+                    <td
+                      className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bookmark.tweet.author.twitter_name}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Links go here</td>
                   </tr>
                 ))}

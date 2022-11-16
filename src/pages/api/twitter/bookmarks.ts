@@ -39,7 +39,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           }
         )
         .then(async ({ data }) => {
-          console.log(data)
           return res.status(200).send({ success: true, data })
         })
         .catch((err) => {

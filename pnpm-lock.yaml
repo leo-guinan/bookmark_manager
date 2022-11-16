@@ -23,6 +23,7 @@ specifiers:
   eslint: 8.27.0
   eslint-config-next: 12.3.1
   eslint-config-prettier: 8.5.0
+  export-to-csv: 0.2.1
   final-form: 4.20.7
   husky: 8.0.2
   jest: 29.3.0
@@ -57,6 +58,7 @@ dependencies:
   axios: 1.1.3
   base-64: 1.0.0
   blitz: 2.0.0-beta.17_6rwlm26bmee3uurobpzwt2jwxq
+  export-to-csv: 0.2.1
   final-form: 4.20.7
   next: 12.2.5_mqvh5p7ejg4taogoj6tpk3gd5a
   passport-oauth2-refresh: 2.1.0
@@ -6037,6 +6039,10 @@ packages:
       jest-message-util: 29.3.1
       jest-util: 29.3.1
     dev: true
+
+  /export-to-csv/0.2.1:
+    resolution: {integrity: sha512-KTbrd3CAZ0cFceJEZr1e5uiMasabeCpXq1/5uvVxDl53o4jXJHnltasQoj2NkzrxD8hU9kdwjnMhoir/7nNx/A==}
+    dev: false
 
   /extend-shallow/2.0.1:
     resolution: {integrity: sha512-zCnTtlxNoAiDc3gqY2aYAWFx7XWWiasuF2K8Me5WbN8otHKTUKBwjPtNpRs/rbUZm7KxWAaNj7P1a/p52GbVug==}

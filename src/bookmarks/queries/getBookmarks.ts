@@ -1,6 +1,6 @@
 import { Ctx } from "blitz"
 import { refreshTwitterTokenIfNeeded } from "../../utils/refresh-token"
-import db from "../../../db"
+import db from "db"
 
 export default async function getBookmarks(_ = null, { session }: Ctx) {
   if (!session.userId) return null
@@ -21,7 +21,5 @@ export default async function getBookmarks(_ = null, { session }: Ctx) {
       twitter_token: user.twitterApiToken
     })
   })
-  const data = await response.json()
-  console.log(data)
-  return data
+  return await response.json()
 }
