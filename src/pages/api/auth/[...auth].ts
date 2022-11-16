@@ -26,7 +26,7 @@ export default api(
               "offline.access",
               "follows.write",
             ],
-            clientType: "private",
+            clientType: "confidential",
           },
           async function (accessToken, refreshToken, profile, done) {
 
