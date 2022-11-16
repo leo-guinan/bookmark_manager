@@ -28,7 +28,7 @@
     "@blitzjs/next": "2.0.0-beta.17",
     "@blitzjs/rpc": "2.0.0-beta.17",
     "@heroicons/react": "2.0.13",
-    "@prisma/client": "4.5.0",
+    "@prisma/client": "4.4.0",
     "@superfaceai/passport-twitter-oauth2": "1.1.0",
     "autoprefixer": "10.x",
     "axios": "1.1.3",
