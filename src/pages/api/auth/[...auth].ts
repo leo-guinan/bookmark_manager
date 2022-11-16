@@ -30,6 +30,8 @@ export default api(
           },
           async function (accessToken, refreshToken, profile, done) {
             console.log("in authentication callback: looking up user in db")
+            console.log(process.env.DATABASE_URL)
+
             const user = await db.user.upsert({
               where: {
                 twitterId: profile.id,
@@ -49,7 +51,6 @@ export default api(
               },
             })
             console.log("in authentication callback: found user in db")
-            console.log(process.env.DATABASE_URL)
             const publicData = {
               userId: user.id,
               roles: [user.role],
