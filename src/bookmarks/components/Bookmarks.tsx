@@ -1,11 +1,19 @@
-import { ChevronDownIcon } from "@heroicons/react/20/solid"
-import { useQuery } from "@blitzjs/rpc"
+import { ChevronDownIcon, PencilIcon } from "@heroicons/react/20/solid"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import getBookmarks from "../queries/getBookmarks"
 import { ExportToCsv } from "export-to-csv"
+import { useState } from "react"
+import updateName from "../mutations/updateName"
 
 const Bookmarks = () => {
 
-  const [bookmarks] = useQuery(getBookmarks, null)
+  const [bookmarks, {
+    setQueryData
+  }] = useQuery(getBookmarks, null)
+  const [editName] = useMutation(updateName)
+
+  const [editingName, setEditingName] = useState("")
+  const [currentName, setCurrentName] = useState("")
 
   const exportToCsv = () => {
     if(!bookmarks) return
@@ -24,10 +32,29 @@ const Bookmarks = () => {
 
     csvExporter.generateCsv(bookmarks.map((bookmark) => {
       return {
-        bookmark: bookmark.tweet.message,
+        bookmark: bookmark.name ?? bookmark.tweet.message,
         link: bookmark.link
       }
     } ));
+  }
+
+  const handleAddName = async (e) => {
+    e.preventDefault()
+    const newBookmark = await editName({ name: currentName, tweetId: editingName })
+    await setQueryData(bookmarks.map((bookmark) => {
+      if(bookmark.tweet.tweet_id === editingName) {
+        return newBookmark
+      }
+      return bookmark
+    }), {refetch: false})
+    setEditingName("")
+  }
+
+  const handleEditName = (e) => {
+    e.preventDefault()
+    const tweetId = e.target.dataset.tweetId
+    setEditingName(tweetId)
+    setCurrentName(e.target.dataset.tweetName)
   }
 
   return (
@@ -58,7 +85,7 @@ const Bookmarks = () => {
                 <tr>
                   <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                     <a href="#" className="group inline-flex">
-                      Link
+                      Name
                     </a>
                   </th>
                   <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
@@ -96,9 +123,30 @@ const Bookmarks = () => {
                 {bookmarks && bookmarks.map((bookmark) => (
                   <tr key={bookmark.tweet.tweet_id}>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <a href={bookmark.link} target="_blank" rel="noreferrer">
-                        Link
-                      </a>
+                      {editingName !== bookmark.tweet.tweet_id ? (
+<>
+                        {bookmark.name && (
+                          <div className="flex flex-row">
+                            <a href={bookmark.link} target="_blank" rel="noreferrer">
+                              {bookmark.name}
+                            </a>
+
+                            <a onClick={handleEditName} >
+                              <PencilIcon className="h-5 w-5 cursor-pointer" aria-hidden="true" data-tweet-id={bookmark.tweet.tweet_id} data-tweet-name={bookmark.name} />
+                            </a>
+
+                          </div>
+                        )}
+                        {!bookmark.name && (
+                          <span><a className="cursor-pointer" onClick={handleEditName} data-tweet-id={bookmark.tweet.tweet_id}>Add Name</a> </span>
+                        )}
+                      </>
+                        ) : (
+                          <form onSubmit={handleAddName}>
+                            <input className="border border-2" type="text" name="name" value={currentName} onChange={(e) => setCurrentName(e.target.value)} />
+                            <button type="submit">Save</button>
+                          </form>
+                        )}
                     </td>
                     <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                       {bookmark.tweet.message}
