@@ -26,13 +26,14 @@ const Bookmarks = () => {
       title: 'Twitter Bookmarks',
       useTextFile: false,
       useBom: true,
-      headers: ['Bookmark', 'Link']
+      headers: ['Name', 'Message', 'Link']
     };
     const csvExporter = new ExportToCsv(options);
 
     csvExporter.generateCsv(bookmarks.map((bookmark) => {
       return {
-        bookmark: bookmark.name ?? bookmark.tweet.message,
+        name: bookmark.name,
+        message: bookmark.tweet.message,
         link: bookmark.link
       }
     } ));
