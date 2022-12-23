@@ -30,9 +30,9 @@ const Bookmarks = () => {
     };
     const csvExporter = new ExportToCsv(options);
 
-    csvExporter.generateCsv(bookmarks.map((bookmark) => {
+    csvExporter.generateCsv(bookmarks.map((bookmark, i) => {
       return {
-        name: bookmark.name,
+        name: bookmark.name ?? `${i}`,
         url: bookmark.link,
         message: ''
         // message: bookmark.tweet.message
