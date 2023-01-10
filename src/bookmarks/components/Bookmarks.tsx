@@ -27,7 +27,7 @@ const Bookmarks = () => {
       useTextFile: false,
       useBom: false,
       headers: ['Name', 'URL', 'Message'],
-      filename: "KeyLink Keys.csv"
+      filename: "KeyLink Keys"
     };
     const csvExporter = new ExportToCsv(options);
 
