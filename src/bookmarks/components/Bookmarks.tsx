@@ -26,7 +26,8 @@ const Bookmarks = () => {
       title: 'Twitter Bookmarks',
       useTextFile: false,
       useBom: false,
-      headers: ['Name', 'URL', 'Message']
+      headers: ['Name', 'URL', 'Message'],
+      filename: "KeyLink Keys.csv"
     };
     const csvExporter = new ExportToCsv(options);
 
