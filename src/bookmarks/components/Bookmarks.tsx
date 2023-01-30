@@ -27,16 +27,16 @@ const Bookmarks = () => {
       useTextFile: false,
       useBom: false,
       headers: ['Name', 'URL', 'Message'],
-      filename: "KeyLink Keys"
+      filename: "Bookmarks"
     };
     const csvExporter = new ExportToCsv(options);
 
     csvExporter.generateCsv(bookmarks.map((bookmark, i) => {
       return {
-        name: bookmark.name ?? `${i}`,
-        url: bookmark.link,
-        message: ''
-        // message: bookmark.tweet.message
+        name: bookmark.name.replace(/(\r\n|\n|\r)/gm, " ") ?? `${i}`,
+        // url: bookmark.link,
+        // message: ''
+        message: bookmark.tweet.message.replace(/(\r\n|\n|\r)/gm, " "),
       }
     } ));
   }
