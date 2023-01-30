@@ -2,8 +2,9 @@ import { ChevronDownIcon, PencilIcon } from "@heroicons/react/20/solid"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import getBookmarks from "../queries/getBookmarks"
 import { ExportToCsv } from "export-to-csv"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import updateName from "../mutations/updateName"
+import { CSVLink, CSVDownload } from "react-csv";
 
 const Bookmarks = () => {
 
@@ -14,31 +15,44 @@ const Bookmarks = () => {
 
   const [editingName, setEditingName] = useState("")
   const [currentName, setCurrentName] = useState("")
-
-  const exportToCsv = () => {
+  const [csvData, setCsvData] = useState<string[][]>([])
+  useEffect(() => {
     if(!bookmarks) return
-    const options = {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: false,
-      title: 'Twitter Bookmarks',
-      useTextFile: false,
-      useBom: false,
-      headers: ['Name', 'URL', 'Message'],
-      filename: "Bookmarks"
-    };
-    const csvExporter = new ExportToCsv(options);
+    const csvHeaders = ["Name", "URL", "Message"]
+    const csvData = bookmarks.map((bookmark, i) => {
+      return [
+        bookmark?.name ?? `${i}`,
+        bookmark.link,
+        ""
+      ]
+    })
+    setCsvData([csvHeaders, ...csvData])
+  }, [bookmarks, csvData])
+  const exportToCsv = () => {
 
-    csvExporter.generateCsv(bookmarks.map((bookmark, i) => {
-      return {
-        name: bookmark?.name?.replace(/(\r\n|\n|\r)/gm, " ") ?? `${i}`,
-        // url: bookmark.link,
-        // message: ''
-        message: bookmark?.tweet?.message?.replace(/(\r\n|\n|\r)/gm, " "),
-      }
-    } ));
+    // const options = {
+    //   fieldSeparator: ',',
+    //   quoteStrings: '"',
+    //   decimalSeparator: '.',
+    //   showLabels: true,
+    //   showTitle: false,
+    //   title: 'Twitter Bookmarks',
+    //   useTextFile: false,
+    //   useBom: false,
+    //   headers: ['Name', 'URL', 'Message'],
+    //   filename: "Bookmarks"
+    // };
+    // const csvExporter = new ExportToCsv(options);
+    //
+    // csvExporter.generateCsv(bookmarks.map((bookmark, i) => {
+    //   return {
+    //     name: bookmark?.name?.replace(/(\r\n|\n|\r)/gm, " ") ?? `${i}`,
+    //     // url: bookmark.link,
+    //     // message: ''
+    //     message: bookmark?.tweet?.message?.replace(/(\r\n|\n|\r)/gm, " "),
+    //   }
+    // } ));
+
   }
 
   const handleAddName = async (e) => {
@@ -70,13 +84,10 @@ const Bookmarks = () => {
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-            onClick={exportToCsv}
-          >
-              Export to CSV
-          </button>
+          <CSVLink data={csvData}>Download me
+
+            Export to CSV
+          </CSVLink>
         </div>
       </div>
       <div className="mt-8 flex flex-col">
