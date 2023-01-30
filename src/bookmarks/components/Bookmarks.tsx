@@ -33,10 +33,10 @@ const Bookmarks = () => {
 
     csvExporter.generateCsv(bookmarks.map((bookmark, i) => {
       return {
-        name: bookmark.name.replace(/(\r\n|\n|\r)/gm, " ") ?? `${i}`,
+        name: bookmark?.name?.replace(/(\r\n|\n|\r)/gm, " ") ?? `${i}`,
         // url: bookmark.link,
         // message: ''
-        message: bookmark.tweet.message.replace(/(\r\n|\n|\r)/gm, " "),
+        message: bookmark?.tweet?.message?.replace(/(\r\n|\n|\r)/gm, " "),
       }
     } ));
   }
